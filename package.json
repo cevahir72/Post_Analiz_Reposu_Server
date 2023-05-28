@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "chalk": "^5.2.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.2.1",
+    "nodemon": "^2.0.22"
+  },
+  "name": "post_analiz_reposu_server",
+  "description": "Mongo_DB + Node.js + Express.js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cevahir72/Post_Analiz_Reposu_Server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cevahir72/Post_Analiz_Reposu_Server/issues"
+  },
+  "homepage": "https://github.com/cevahir72/Post_Analiz_Reposu_Server#readme"
+}
