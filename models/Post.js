@@ -6,13 +6,17 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    soldProduct: {
-        type: String,
-        required: true,
-      },
+    date: {
+      type: String,
+      required: true,
+    },
     zip: {
         type: String,
         required: true,
+      },
+    soldProduct: {
+        type: String,
+        required: false,
       },
     location: {
         type: String,

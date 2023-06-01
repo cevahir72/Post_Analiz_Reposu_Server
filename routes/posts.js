@@ -3,10 +3,14 @@ const Post = require("../models/Post");
 
 //CREATE POST
 router.post("/", async (req, res) => {
+  console.log(req.body)
   const newPost = new Post(req.body);
   try {
     const savedPost = await newPost.save();
-    res.status(200).json(savedPost);
+    res.status(200).json({
+      data : savedPost,
+      message : "Post created successfully!"
+    });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -15,14 +19,18 @@ router.post("/", async (req, res) => {
 //UPDATE POST
 router.put("/:id", async (req, res) => {
   try {
-        const updatedPost = await Post.findByIdAndUpdate(
+        await Post.findByIdAndUpdate(
           req.params.id,
           {
             $set: req.body,
           },
           { new: true }
         );
-        res.status(200).json(updatedPost);
+        const post = await Post.findById(req.params.id);
+        res.status(200).json({
+          data : post,
+          message : "Post updated successfully!"
+        });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -31,13 +39,13 @@ router.put("/:id", async (req, res) => {
 //DELETE POST
 router.delete("/:id", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
-      try {
-        await post.delete();
-        res.status(200).json("Post has been deleted...");
-      } catch (err) {
-        res.status(500).json(err);
-      }
+        const post = await Post.findById(req.params.id);
+        await Post.deleteOne({_id :req.params.id});
+        res.status(200).json({
+            data: post,
+            message: "Post deleted successfully!"
+        });
+          
   } catch (err) {
     res.status(500).json(err);
   }
