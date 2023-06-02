@@ -63,9 +63,15 @@ router.get("/:id", async (req, res) => {
 
 //GET ALL POSTS
 router.get("/", async (req, res) => {
-  
+    const {user} = req.query;
+    console.log(req.query)
+    let  posts;
   try {
-    let  posts = await Post.find();  
+    if(user === '' || user== undefined ) {
+        posts = await Post.find(); 
+    }else{
+      posts = await Post.find({username : user });
+    }    
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
