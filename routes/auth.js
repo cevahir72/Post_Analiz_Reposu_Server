@@ -4,17 +4,25 @@ const bcrypt = require("bcrypt");
 
 //REGISTER
 router.post("/register", async (req, res) => {
+  const {username,password} = req.body;
+  console.log(username)
   try {
     const salt = await bcrypt.genSalt(10);
-    const hashedPass = await bcrypt.hash(req.body.password, salt);
+    const hashedPass = await bcrypt.hash(password, salt);
+    
     const newUser = new User({
-      username: req.body.username,
-      email: req.body.email,
+      username: username,
       password: hashedPass,
     });
-
+    
     const user = await newUser.save();
-    res.status(200).json(user);
+    if(user) {
+      res.status(200).json({
+        data: user,
+        message:"Registery Successfull!"
+      });
+    }
+    
   } catch (err) {
     res.status(500).json(err);
   }
@@ -30,7 +38,10 @@ router.post("/login", async (req, res) => {
     !validated && res.status(400).json("Wrong credentials!");
 
     const { password, ...others } = user._doc;
-    res.status(200).json(others);
+    res.status(200).json({
+       username: others.username,
+       message : `Hoşgeldin ${others.username}`
+    });
   } catch (err) {
     res.status(500).json(err);
   }

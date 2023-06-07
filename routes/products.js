@@ -74,7 +74,7 @@ router.get("/", async (req, res) => {
 
     if (keystr) {
       // Perform dynamic search using Mongoose
-      product = await Product.find({
+          product = await Product.find({
           title: { $regex: keystr, $options: "i" },
       });
     } else {
