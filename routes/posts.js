@@ -3,7 +3,6 @@ const Post = require("../models/Post");
 
 //CREATE POST
 router.post("/", async (req, res) => {
-  console.log(req.body)
   const newPost = new Post(req.body);
   try {
     const savedPost = await newPost.save();
@@ -64,7 +63,6 @@ router.get("/:id", async (req, res) => {
 //GET ALL POSTS
 router.get("/", async (req, res) => {
     const {user} = req.query;
-    console.log(req.query)
     let  posts;
   try {
     if(user === '' || user== undefined ) {

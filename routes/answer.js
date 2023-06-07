@@ -7,7 +7,10 @@ router.post("/", async (req, res) => {
   const newAnswer = new Answer(req.body);
   try {
     const savedAnswer = await newAnswer.save();
-    res.status(200).json(savedAnswer);
+    res.status(200).json({
+      data : savedAnswer,
+      message : "Answer created successfully!"
+    });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -16,14 +19,18 @@ router.post("/", async (req, res) => {
 //UPDATE ANSWER
 router.put("/:id", async (req, res) => {
   try {
-        const updatedAnswer = await Answer.findByIdAndUpdate(
+       await Answer.findByIdAndUpdate(
           req.params.id,
           {
             $set: req.body,
           },
           { new: true }
         );
-        res.status(200).json(updatedAnswer);
+        const answer = await Answer.findById(req.params.id);
+        res.status(200).json({
+          data: answer,
+          message:"Answer updated successfully!"
+        });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -33,12 +40,11 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const answer = await Answer.findById(req.params.id);
-      try {
-        await answer.delete();
-        res.status(200).json("Answer has been deleted...");
-      } catch (err) {
-        res.status(500).json(err);
-      }
+    await Answer.deleteOne({_id :req.params.id});
+    res.status(200).json({
+      data: answer,
+      message: "Answer deleted successfully!"
+   } ); 
   } catch (err) {
     res.status(500).json(err);
   }
@@ -57,8 +63,24 @@ router.get("/:id", async (req, res) => {
 //GET ALL ANSWER
 router.get("/", async (req, res) => {
   
+  const {filterText} = req.query;
+    let keystr = filterText ? filterText : "";
+    keystr = keystr
+    .replace(/[^a-zA-Z0-9 ]/g, "") //! extract all special characters
+    .replace(/\s\s+/g, " ") //! multiple spaces to single spaces
+    .trim();
   try {
-    let  answer = await Answer.find();  
+    let answer;
+
+    if (keystr) {
+      // Perform dynamic search using Mongoose
+      answer = await Answer.find({
+          title: { $regex: keystr, $options: "i" },
+      });
+    } else {
+      // Fetch all answers if no filter text provided
+      answer = await Answer.find();
+    } 
     res.status(200).json(answer);
   } catch (err) {
     res.status(500).json(err);

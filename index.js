@@ -10,6 +10,7 @@ const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 const productRoute = require("./routes/products");
 const answerRoute = require("./routes/answer");
+const analysisRoute = require("./routes/analysis");
 
 dotenv.config();
 app.use(
@@ -39,6 +40,7 @@ app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/products", productRoute);
 app.use("/api/answers", answerRoute);
+app.use("/api/analysis", analysisRoute);
 
 app.listen("5000", () => {
   console.log("Backend is running.");
