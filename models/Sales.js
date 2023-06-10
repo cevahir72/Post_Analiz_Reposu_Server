@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const PostSchema = new mongoose.Schema(
+const SaleSchema = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -18,24 +18,28 @@ const PostSchema = new mongoose.Schema(
         type: String,
         required: false,
       },
+    price: {
+        type: Number,
+        required: false,
+      },
+      percentage: {
+        type: Number,
+        required: false,
+      },
     location: {
         type: String,
         required: true,
       },
-    count: {
-        type: Number,
-        required: true,
-      },
-    customerReturns: {
-        type: Number,
-        required: true,
-      },
-    sale: {
+    facebook : {
         type: Boolean,
-        required: false,
-      },
+        required: false
+    },
+    isPaid : {
+      type: Boolean,
+      required: false
+    }
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("Sales", SaleSchema);
