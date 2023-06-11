@@ -79,7 +79,7 @@ router.get("/", async (req, res) => {
       }).limit(10);
     } else {
       // Fetch all products if no filter text provided
-      product = await Product.find();
+      product = await Product.find().limit(10);
     } 
     res.status(200).json(product);
   } catch (err) {
